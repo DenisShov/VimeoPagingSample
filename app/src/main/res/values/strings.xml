@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Vimeo</string>
+
+    <string name="action_search">Search videos</string>
+
+    <!-- HomeFragment -->
+    <plurals name="video_feed_likes_plural">
+        <item quantity="one">liked by %1$d user</item>
+        <item quantity="other">liked by %1$d users</item>
+    </plurals>
+
+    <!-- Errors and Actions after errors -->
+    <string name="error_no_videos_to_display">No videos to display</string>
+    <string name="error_no_comments_to_display">No comments to display</string>
+    <string name="error_generic_server_error">There was an error contacting the server, %1$s</string>
+    <string name="action_try_again">Try Again</string>
+    <string name="action_check_again">Check Again</string>
+
+    <plurals name="video_pager_adapter_comments_plural">
+        <item quantity="one">%1$d comment</item>
+        <item quantity="other">%1$d comments</item>
+    </plurals>
+
+
+</resources>
