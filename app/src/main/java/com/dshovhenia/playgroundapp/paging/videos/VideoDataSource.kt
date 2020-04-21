@@ -1,25 +1,25 @@
 package com.dshovhenia.playgroundapp.paging.videos
 
+import com.dshovhenia.playgroundapp.data.repository.Repository
+import com.dshovhenia.playgroundapp.data.model.Collection
+import com.dshovhenia.playgroundapp.data.model.video.Video
+import com.dshovhenia.playgroundapp.paging.base.BaseDataSource
 import kotlinx.coroutines.CoroutineScope
 import retrofit2.Response
-import com.dshovhenia.playgroundapp.data.DataManager
-import com.dshovhenia.playgroundapp.data.model.VimeoCollection
-import com.dshovhenia.playgroundapp.data.model.VimeoVideo
-import com.dshovhenia.playgroundapp.paging.base.BaseDataSource
 
 class VideoDataSource(
-  private val mDataManager: DataManager,
+  private val mRepository: Repository,
   private val scope: CoroutineScope,
   private val mInitialUri: String?,
   private val mSearchQuery: String?
-) : BaseDataSource<VimeoVideo>(scope) {
+) : BaseDataSource<Video>(scope) {
 
-  override suspend fun getLoadInitialObservable(params: LoadInitialParams<String>): Response<VimeoCollection<VimeoVideo>> {
-    return mDataManager.getVideoList(mInitialUri, mSearchQuery, 1, params.requestedLoadSize)
+  override suspend fun getLoadInitialObservable(params: LoadInitialParams<String>): Response<Collection<Video>> {
+    return mRepository.getVideoList(mInitialUri, mSearchQuery, 1, params.requestedLoadSize)
   }
 
-  override suspend fun getLoadAfterObservable(params: LoadParams<String>): Response<VimeoCollection<VimeoVideo>> {
-    return mDataManager.getVideoList(params.key, null, null, null)
+  override suspend fun getLoadAfterObservable(params: LoadParams<String>): Response<Collection<Video>> {
+    return mRepository.getVideoList(params.key, null, null, null)
   }
 
 }

@@ -4,7 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response
 import timber.log.Timber
-import com.dshovhenia.playgroundapp.data.local.PreferencesHelper
+import com.dshovhenia.playgroundapp.data.cache.preferences.PreferencesHelper
 import java.io.IOException
 import javax.inject.Inject
 

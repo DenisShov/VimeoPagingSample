@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.layout_message.*
 import kotlinx.android.synthetic.main.layout_progress.*
 import timber.log.Timber
 import com.dshovhenia.playgroundapp.R
-import com.dshovhenia.playgroundapp.data.model.VimeoComment
-import com.dshovhenia.playgroundapp.data.model.VimeoConnection
+import com.dshovhenia.playgroundapp.data.model.comment.Comment
+import com.dshovhenia.playgroundapp.data.cache.model.connection.CachedConnection
 import com.dshovhenia.playgroundapp.injection.component.ApplicationComponent
 import com.dshovhenia.playgroundapp.paging.ResultState
 import com.dshovhenia.playgroundapp.paging.VimeoPagedListAdapter
@@ -30,8 +30,8 @@ import com.dshovhenia.playgroundapp.util.DisplayMetricsUtil
 
 class CommentsFragment : ViewModelFragment() {
 
-  private lateinit var mConnection: VimeoConnection
-  private lateinit var pagerAdapter: VimeoPagedListAdapter<VimeoComment>
+  private lateinit var mConnection: CachedConnection
+  private lateinit var pagerAdapter: VimeoPagedListAdapter<Comment>
 
   private val vm by viewModel<CommentsViewModel>()
 
@@ -39,23 +39,20 @@ class CommentsFragment : ViewModelFragment() {
     component.inject(this)
   }
 
-  override fun onAttach(context: Context) {
-    super.onAttach(context)
-    mConnection = arguments?.getParcelable<Parcelable>(ARG_VIMEO_CONNECTION) as VimeoConnection
-  }
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     if (savedInstanceState != null) {
-      mConnection = savedInstanceState.getParcelable(SAVED_VIMEO_CONNECTION)!!
+      mConnection = savedInstanceState.getParcelable<Parcelable>(SAVED_VIMEO_CONNECTION) as CachedConnection
+    } else {
+      mConnection = arguments?.getParcelable<Parcelable>(ARG_VIMEO_CONNECTION) as CachedConnection
     }
     pagerAdapter = VimeoPagedListAdapter(
       this,
-      object : ListItemViewHolder.ListItemViewHolderGenerator<VimeoComment> {
+      object : ListItemViewHolder.ListItemViewHolderGenerator<Comment> {
         override fun generateViewHolder(
 
           baseFragment: Fragment, inflater: LayoutInflater, parent: ViewGroup
-        ): ListItemViewHolder<VimeoComment> {
+        ): ListItemViewHolder<Comment> {
           return CommentViewHolder(
             baseFragment, inflater, parent
           )
@@ -91,7 +88,7 @@ class CommentsFragment : ViewModelFragment() {
       vm.retry()
     }
 
-    vm.commentListLiveData.observe(viewLifecycleOwner, Observer<PagedList<VimeoComment>> {
+    vm.commentListLiveData.observe(viewLifecycleOwner, Observer<PagedList<Comment>> {
       pagerAdapter.submitList(it)
     })
 
@@ -159,7 +156,7 @@ class CommentsFragment : ViewModelFragment() {
     private val SAVED_VIMEO_CONNECTION = "fragment_video_tab_connection"
     private val ARG_VIMEO_CONNECTION = "vimeo_connection"
 
-    fun newInstance(connection: VimeoConnection): CommentsFragment {
+    fun newInstance(connection: CachedConnection): CommentsFragment {
       val args = Bundle()
       args.putParcelable(ARG_VIMEO_CONNECTION, connection)
 

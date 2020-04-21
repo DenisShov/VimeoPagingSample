@@ -6,18 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.dshovhenia.playgroundapp.data.DataManager
-import com.dshovhenia.playgroundapp.data.model.VimeoComment
+import com.dshovhenia.playgroundapp.data.repository.Repository
+import com.dshovhenia.playgroundapp.data.model.comment.Comment
 import com.dshovhenia.playgroundapp.paging.comments.CommentsDataSourceFactory
 import javax.inject.Inject
 
-class CommentsViewModel @Inject constructor(private var mDataManager: DataManager) : ViewModel() {
+class CommentsViewModel @Inject constructor(private var mRepository: Repository) : ViewModel() {
 
   private val dataSourceFactory = CommentsDataSourceFactory(
-    mDataManager, viewModelScope
+    mRepository, viewModelScope
   )
 
-  internal val commentListLiveData: LiveData<PagedList<VimeoComment>>
+  internal val commentListLiveData: LiveData<PagedList<Comment>>
   internal val stateLiveData =
     Transformations.switchMap(dataSourceFactory.collectionDataSourceLiveData) {
       it.stateLiveData

@@ -4,26 +4,26 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
-import com.dshovhenia.playgroundapp.data.model.VimeoConnection
-import com.dshovhenia.playgroundapp.data.model.VimeoMetadataVideo
+import com.dshovhenia.playgroundapp.data.cache.model.connection.CachedConnection
+import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideoMetadata
 import java.lang.reflect.Type
 
-class VimeoMetadataVideoDeserializer : JsonDeserializer<VimeoMetadataVideo> {
+class VimeoMetadataVideoDeserializer : JsonDeserializer<CachedVideoMetadata> {
 
   @Throws(JsonParseException::class)
   override fun deserialize(
     json: JsonElement, typeOfT: Type, context: JsonDeserializationContext
-  ): VimeoMetadataVideo {
+  ): CachedVideoMetadata {
     val jsonObject = json.asJsonObject
 
     val jsonConnectionsObject = jsonObject.getAsJsonObject("connections")
-    val comments = context.deserialize<VimeoConnection>(
-      jsonConnectionsObject.get("comments"), VimeoConnection::class.java
+    val comments = context.deserialize<CachedConnection>(
+      jsonConnectionsObject.get("comments"), CachedConnection::class.java
     )
-    val likes = context.deserialize<VimeoConnection>(
-      jsonConnectionsObject.get("likes"), VimeoConnection::class.java
+    val likes = context.deserialize<CachedConnection>(
+      jsonConnectionsObject.get("likes"), CachedConnection::class.java
     )
 
-    return VimeoMetadataVideo(comments, likes)
+    return CachedVideoMetadata(comments, likes)
   }
 }

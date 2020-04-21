@@ -7,16 +7,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 abstract class ListItemViewHolder<T>(var mBaseFragment: Fragment, itemView: View) :
-  ViewHolder(itemView) {
+    ViewHolder(itemView) {
 
-  abstract fun bind(listItem: T)
+    abstract fun bind(listItem: T, onItemClick: ((T) -> Unit)?)
 
-  /**
-   * Interface for generating new ViewHolders
-   */
-  interface ListItemViewHolderGenerator<T> {
-    fun generateViewHolder(
-      baseFragment: Fragment, inflater: LayoutInflater, parent: ViewGroup
-    ): ListItemViewHolder<T>
-  }
+    /**
+     * Interface for generating new ViewHolders
+     */
+    interface ListItemViewHolderGenerator<T> {
+        fun generateViewHolder(
+            baseFragment: Fragment, inflater: LayoutInflater, parent: ViewGroup
+        ): ListItemViewHolder<T>
+    }
 }

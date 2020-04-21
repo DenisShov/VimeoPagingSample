@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.dshovhenia.playgroundapp.data.DataManager
-import com.dshovhenia.playgroundapp.data.model.VimeoVideo
+import com.dshovhenia.playgroundapp.data.repository.Repository
+import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
 import com.dshovhenia.playgroundapp.paging.videos.VideoDataSourceFactory
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(mDataManager: DataManager) : ViewModel() {
+class HomeViewModel @Inject constructor(mRepository: Repository) : ViewModel() {
 
   private val COLLECTION_URI = "videos"
   private val STAFF_PICKS_URI = "channels/staffpicks/videos"
@@ -19,10 +19,10 @@ class HomeViewModel @Inject constructor(mDataManager: DataManager) : ViewModel()
   var searchQuery: String = ""
 
   private val dataSourceFactory = VideoDataSourceFactory(
-    mDataManager, viewModelScope
+    mRepository, viewModelScope
   )
 
-  internal val videoListLiveData: LiveData<PagedList<VimeoVideo>>
+  internal val cachedVideoListLiveData: LiveData<PagedList<CachedVideo>>
   internal val stateLiveData =
     Transformations.switchMap(dataSourceFactory.collectionDataSourceLiveData) {
       it.stateLiveData
@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(mDataManager: DataManager) : ViewModel()
 
     val config = PagedList.Config.Builder().setPageSize(10).setInitialLoadSizeHint(20)
       .setEnablePlaceholders(false).build()
-    videoListLiveData = LivePagedListBuilder(dataSourceFactory, config).build()
+    cachedVideoListLiveData = LivePagedListBuilder(dataSourceFactory, config).build()
   }
 
   fun searchVideos(query: String) {

@@ -9,9 +9,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import com.dshovhenia.playgroundapp.data.model.VimeoMetadataUser
-import com.dshovhenia.playgroundapp.data.model.VimeoMetadataVideo
-import com.dshovhenia.playgroundapp.data.remote.VimeoApiService
+import com.dshovhenia.playgroundapp.data.cache.model.user.CachedUserMetadata
+import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideoMetadata
+import com.dshovhenia.playgroundapp.data.remote.service.VimeoApiService
 import com.dshovhenia.playgroundapp.data.remote.authentication.AuthenticationInterceptor
 import com.dshovhenia.playgroundapp.data.remote.authentication.VimeoServiceAuthenticator
 import com.dshovhenia.playgroundapp.data.remote.deserializer.VimeoMetadataUserDeserializer
@@ -40,9 +40,9 @@ class NetworkModule {
   @Provides
   fun gson(): Gson {
     return GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").registerTypeHierarchyAdapter(
-      VimeoMetadataUser::class.java, VimeoMetadataUserDeserializer()
+      CachedUserMetadata::class.java, VimeoMetadataUserDeserializer()
     ).registerTypeHierarchyAdapter(
-      VimeoMetadataVideo::class.java, VimeoMetadataVideoDeserializer()
+      CachedVideoMetadata::class.java, VimeoMetadataVideoDeserializer()
     ).create()
   }
 

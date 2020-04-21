@@ -5,34 +5,39 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.layout_message.*
-import kotlinx.android.synthetic.main.layout_progress.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 import com.dshovhenia.playgroundapp.R
-import com.dshovhenia.playgroundapp.data.model.VimeoVideo
+import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
 import com.dshovhenia.playgroundapp.injection.component.ApplicationComponent
 import com.dshovhenia.playgroundapp.paging.ResultState
 import com.dshovhenia.playgroundapp.paging.VimeoPagedListAdapter
 import com.dshovhenia.playgroundapp.paging.base.list_item.ListItemViewHolder
 import com.dshovhenia.playgroundapp.paging.base.list_item.item_decoration.MarginDividerItemDecoration
 import com.dshovhenia.playgroundapp.ui.base.ViewModelFragment
+import com.dshovhenia.playgroundapp.ui.details.VideoFragment
 import com.dshovhenia.playgroundapp.util.DisplayMetricsUtil
 import com.dshovhenia.playgroundapp.util.KeyboardUtil
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.layout_message.*
+import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 class HomeFragment : ViewModelFragment() {
 
   private val vm by viewModel<HomeViewModel>()
 
-  private lateinit var pagerAdapter: VimeoPagedListAdapter<VimeoVideo>
+  private lateinit var pagerAdapter: VimeoPagedListAdapter<CachedVideo>
   private lateinit var screenDimensions: DisplayMetricsUtil.Dimensions
+  private lateinit var navController: NavController
 
   override fun inject(component: ApplicationComponent) {
     component.inject(this)
@@ -46,6 +51,7 @@ class HomeFragment : ViewModelFragment() {
   override fun onCreate(savedInstanceState: Bundle?) {
     setHasOptionsMenu(true)
     super.onCreate(savedInstanceState)
+    vm.showStaffPickVideos()
   }
 
   override fun onCreateView(
@@ -58,9 +64,9 @@ class HomeFragment : ViewModelFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    navController = Navigation.findNavController(view)
     initViews()
     initState()
-    vm.showStaffPickVideos()
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -83,7 +89,9 @@ class HomeFragment : ViewModelFragment() {
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
       override fun onQueryTextSubmit(query: String): Boolean {
         activity?.also { KeyboardUtil.hideKeyboard(it) }
-        vm.searchVideos(query)
+        if (query.isNotEmpty()) {
+          vm.searchVideos(query)
+        }
         return true
       }
 
@@ -101,10 +109,10 @@ class HomeFragment : ViewModelFragment() {
 
     pagerAdapter = VimeoPagedListAdapter(
       this,
-      object : ListItemViewHolder.ListItemViewHolderGenerator<VimeoVideo> {
+      object : ListItemViewHolder.ListItemViewHolderGenerator<CachedVideo> {
         override fun generateViewHolder(
           baseFragment: Fragment, inflater: LayoutInflater, parent: ViewGroup
-        ): ListItemViewHolder<VimeoVideo> {
+        ): ListItemViewHolder<CachedVideo> {
           return VideoFeedViewHolder(
             baseFragment,
             inflater,
@@ -113,6 +121,10 @@ class HomeFragment : ViewModelFragment() {
           )
         }
       })
+    pagerAdapter.onItemClick = { vimeoVideo ->
+      val bundle = bundleOf(VideoFragment.ARG_VIMEO_VIDEO to vimeoVideo)
+      navController.navigate(R.id.action_homeFragment_to_videoFragment, bundle)
+    }
 
     recyclerview.setBackgroundColor(resources.getColor(R.color.mediumLightGray, null))
     recyclerview.itemAnimator = DefaultItemAnimator()
@@ -124,13 +136,13 @@ class HomeFragment : ViewModelFragment() {
     )
     recyclerview.adapter = pagerAdapter
 
-    fragment_home_swipe_to_refresh.setProgressBackgroundColorSchemeResource(R.color.colorPrimaryDark)
-    fragment_home_swipe_to_refresh.setColorSchemeResources(R.color.white)
-    fragment_home_swipe_to_refresh.setOnRefreshListener {
+    swipe_to_refresh.setProgressBackgroundColorSchemeResource(R.color.colorPrimaryDark)
+    swipe_to_refresh.setColorSchemeResources(R.color.white)
+    swipe_to_refresh.setOnRefreshListener {
       vm.invalidateDataSource()
     }
 
-    vm.videoListLiveData.observe(viewLifecycleOwner, Observer<PagedList<VimeoVideo>> {
+    vm.cachedVideoListLiveData.observe(viewLifecycleOwner, Observer<PagedList<CachedVideo>> {
       pagerAdapter.submitList(it)
     })
   }
@@ -170,20 +182,20 @@ class HomeFragment : ViewModelFragment() {
   }
 
   override fun onDestroyView() {
-    fragment_home_swipe_to_refresh.setOnRefreshListener(null)
+    swipe_to_refresh.setOnRefreshListener(null)
     recyclerview.adapter = null
     super.onDestroyView()
   }
 
   fun showProgress() {
     showMessageLayout(false)
-    if (pagerAdapter.isEmpty && !fragment_home_swipe_to_refresh.isRefreshing) {
+    if (pagerAdapter.isEmpty && !swipe_to_refresh.isRefreshing) {
       progress_bar.visibility = View.VISIBLE
     }
   }
 
   fun hideProgress() {
-    fragment_home_swipe_to_refresh.isRefreshing = false
+    swipe_to_refresh.isRefreshing = false
     progress_bar.visibility = View.GONE
   }
 

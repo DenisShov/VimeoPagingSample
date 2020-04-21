@@ -19,7 +19,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/fragment_home_swipe_to_refresh"
+        android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"

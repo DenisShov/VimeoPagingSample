@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import com.dshovhenia.playgroundapp.data.model.VimeoCollection
+import com.dshovhenia.playgroundapp.data.model.Collection
 import com.dshovhenia.playgroundapp.paging.ResultState
 
 abstract class BaseDataSource<T : Parcelable>(private val scope: CoroutineScope) :
@@ -18,8 +18,8 @@ abstract class BaseDataSource<T : Parcelable>(private val scope: CoroutineScope)
 
   val stateLiveData = MutableLiveData<ResultState>()
 
-  protected abstract suspend fun getLoadInitialObservable(params: LoadInitialParams<String>): Response<VimeoCollection<T>>
-  protected abstract suspend fun getLoadAfterObservable(params: LoadParams<String>): Response<VimeoCollection<T>>
+  protected abstract suspend fun getLoadInitialObservable(params: LoadInitialParams<String>): Response<Collection<T>>
+  protected abstract suspend fun getLoadAfterObservable(params: LoadParams<String>): Response<Collection<T>>
 
   override fun loadInitial(
     params: LoadInitialParams<String>, callback: LoadInitialCallback<String, T>
@@ -34,9 +34,7 @@ abstract class BaseDataSource<T : Parcelable>(private val scope: CoroutineScope)
           if (collection.data.isEmpty()) {
             updateState(ResultState.NO_DATA)
           } else {
-            updateState(
-              ResultState.SUCCESS
-            )
+            updateState(ResultState.SUCCESS)
           }
           callback.onResult(collection.data, null, collection.paging!!.next)
         }

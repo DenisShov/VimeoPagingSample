@@ -4,26 +4,29 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
-import com.dshovhenia.playgroundapp.data.model.VimeoConnection
-import com.dshovhenia.playgroundapp.data.model.VimeoMetadataUser
+import com.dshovhenia.playgroundapp.data.cache.model.connection.CachedConnection
+import com.dshovhenia.playgroundapp.data.cache.model.user.CachedUserMetadata
 import java.lang.reflect.Type
 
-class VimeoMetadataUserDeserializer : JsonDeserializer<VimeoMetadataUser> {
+class VimeoMetadataUserDeserializer : JsonDeserializer<CachedUserMetadata> {
 
   @Throws(JsonParseException::class)
   override fun deserialize(
     json: JsonElement, typeOfT: Type, context: JsonDeserializationContext
-  ): VimeoMetadataUser {
+  ): CachedUserMetadata {
     val jsonObject = json.asJsonObject
 
     val jsonConnectionsObject = jsonObject.getAsJsonObject("connections")
-    val followers = context.deserialize<VimeoConnection>(
-      jsonConnectionsObject.get("followers"), VimeoConnection::class.java
+    val followers = context.deserialize<CachedConnection>(
+      jsonConnectionsObject.get("followers"), CachedConnection::class.java
     )
-    val videos = context.deserialize<VimeoConnection>(
-      jsonConnectionsObject.get("videos"), VimeoConnection::class.java
+    val videos = context.deserialize<CachedConnection>(
+      jsonConnectionsObject.get("videos"), CachedConnection::class.java
     )
 
-    return VimeoMetadataUser(followers, videos)
+    return CachedUserMetadata(
+      followers,
+      videos
+    )
   }
 }

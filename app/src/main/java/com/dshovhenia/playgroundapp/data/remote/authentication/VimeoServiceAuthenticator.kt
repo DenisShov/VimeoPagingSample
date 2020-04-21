@@ -11,9 +11,9 @@ import okhttp3.Response
 import okhttp3.Route
 import timber.log.Timber
 import com.dshovhenia.playgroundapp.BuildConfig
-import com.dshovhenia.playgroundapp.data.local.AccessToken
-import com.dshovhenia.playgroundapp.data.local.PreferencesHelper
-import com.dshovhenia.playgroundapp.data.remote.VimeoApiService
+import com.dshovhenia.playgroundapp.data.cache.preferences.model.AccessToken
+import com.dshovhenia.playgroundapp.data.cache.preferences.PreferencesHelper
+import com.dshovhenia.playgroundapp.data.remote.service.VimeoApiService
 import javax.inject.Inject
 
 class VimeoServiceAuthenticator @Inject constructor(

@@ -13,6 +13,8 @@ class VimeoPagedListAdapter<T>(
   private val mViewHolderGenerator: ListItemViewHolderGenerator<T>
 ) : PagedListAdapter<T, ListItemViewHolder<T>>(DIFF_CALLBACK<T>()) {
 
+  var onItemClick: ((T) -> Unit)? = null
+
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder<T> {
     val layoutInflater = LayoutInflater.from(parent.context)
     return mViewHolderGenerator.generateViewHolder(mBaseFragment, layoutInflater, parent)
@@ -21,7 +23,7 @@ class VimeoPagedListAdapter<T>(
   override fun onBindViewHolder(holder: ListItemViewHolder<T>, position: Int) {
     val item = getItem(position)
     if (item != null) {
-      holder.bind(item)
+      holder.bind(item, onItemClick)
     }
   }
 

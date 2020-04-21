@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.dshovhenia.playgroundapp.ui.custom_view.ExpandableTextView
+    <com.dshovhenia.playgroundapp.ui.details.custom_view.ExpandableTextView
         android:id="@+id/layout_expandable_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
