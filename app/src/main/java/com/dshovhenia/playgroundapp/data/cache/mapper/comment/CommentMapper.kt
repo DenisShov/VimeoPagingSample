@@ -9,32 +9,21 @@ import javax.inject.Inject
 class CommentMapper @Inject constructor(private val userMapper: UserMapper) :
   Mapper<CachedComment, Comment> {
 
-  /**
-   * Map a [CachedComment] instance to a [Comment] instance
-   */
-  override fun mapFrom(type: CachedComment?): Comment? {
-    return type?.let {
-      Comment(
-        type.uri,
-        type.text,
-        type.created_on,
-        userMapper.mapFrom(type.user)
-      )
-    }
-  }
+  override fun mapFrom(type: CachedComment) =
+    Comment(
+      type.uri,
+      type.text,
+      type.created_on,
+      type.nextPage,
+      userMapper.mapFrom(type.user!!)
+    )
 
-  /**
-   * Map a [Comment] instance to a [CachedComment] instance
-   */
-  override fun mapTo(type: Comment?): CachedComment? {
-    return type?.let {
-      CachedComment(
-        type.uri,
-        type.text,
-        type.created_on,
-        userMapper.mapTo(type.user)
-      )
-    }
-  }
-
+  override fun mapTo(type: Comment) =
+    CachedComment(
+      type.uri,
+      type.text,
+      type.created_on,
+      type.nextPage,
+      userMapper.mapTo(type.user!!)
+    )
 }

@@ -1,60 +1,48 @@
 package com.dshovhenia.playgroundapp.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import com.dshovhenia.playgroundapp.data.repository.Repository
-import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
-import com.dshovhenia.playgroundapp.paging.videos.VideoDataSourceFactory
-import javax.inject.Inject
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.dshovhenia.playgroundapp.data.cache.model.video.RelationsVideo
+import com.dshovhenia.playgroundapp.data.repository.VideoRepository
+import com.dshovhenia.playgroundapp.util.Constants
 
-class HomeViewModel @Inject constructor(mRepository: Repository) : ViewModel() {
+class HomeViewModel @ViewModelInject constructor(
+  private val videoRepository: VideoRepository
+) : ViewModel() {
 
-  private val COLLECTION_URI = "videos"
-  private val STAFF_PICKS_URI = "channels/staffpicks/videos"
+  var searchQuery: String? = null
 
-  var searchQuery: String = ""
-
-  private val dataSourceFactory = VideoDataSourceFactory(
-    mRepository, viewModelScope
-  )
-
-  internal val cachedVideoListLiveData: LiveData<PagedList<CachedVideo>>
-  internal val stateLiveData =
-    Transformations.switchMap(dataSourceFactory.collectionDataSourceLiveData) {
-      it.stateLiveData
+  private val queryLiveData = MutableLiveData<Pair<String, String?>>()
+  val videoResult: LiveData<PagingData<RelationsVideo>> = queryLiveData.switchMap { pair ->
+    liveData {
+      val repos = getResultStream(pair.first, pair.second)
+      emitSource(repos)
     }
-
-  init {
-    dataSourceFactory.setInitialUri(STAFF_PICKS_URI)
-
-    val config = PagedList.Config.Builder().setPageSize(10).setInitialLoadSizeHint(20)
-      .setEnablePlaceholders(false).build()
-    cachedVideoListLiveData = LivePagedListBuilder(dataSourceFactory, config).build()
   }
 
   fun searchVideos(query: String) {
     searchQuery = query
-    dataSourceFactory.setInitialUri(COLLECTION_URI)
-    dataSourceFactory.setSearchQuery(query)
-    invalidateDataSource()
+    clearVideos()
+    val pair = Pair(Constants.COLLECTION_URI, searchQuery)
+    queryLiveData.postValue(pair)
   }
 
   fun showStaffPickVideos() {
-    dataSourceFactory.setInitialUri(STAFF_PICKS_URI)
-    dataSourceFactory.setSearchQuery(null)
-    invalidateDataSource()
+    val pair = Pair(Constants.STAFF_PICKS_URI, null)
+    queryLiveData.postValue(pair)
   }
 
-  fun retry() {
-    dataSourceFactory.collectionDataSourceLiveData.value?.retry()
+  fun clearVideos() {
+    videoRepository.clearVideos()
   }
 
-  fun invalidateDataSource() {
-    dataSourceFactory.collectionDataSourceLiveData.value?.invalidate()
+  private fun getResultStream(initialUri: String, searchQuery: String?) =
+    videoRepository.getVideos(initialUri, searchQuery).cachedIn(viewModelScope)
+
+  companion object {
+    const val NETWORK_PAGE_SIZE = 50
   }
 
 }

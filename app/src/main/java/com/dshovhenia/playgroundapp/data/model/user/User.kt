@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class User(
-  var name: String = "", var pictures: Pictures?, var userMetadata: UserMetadata?
+  var name: String = "", var pictures: Pictures?, var metadata: UserMetadata?
 ) : Parcelable

@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Paging(
-  var next: String = ""
+  var next: String?
 ) : Parcelable

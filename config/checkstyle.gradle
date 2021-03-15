@@ -1,0 +1,21 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+detekt {
+    failFast = true // fail build on any finding
+    buildUponDefaultConfig = true // preconfigure defaults
+    config = files("$rootDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    autoCorrect = true // auto correct errors
+
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+    }
+}
+
+tasks.detekt.jvmTarget = "1.8"
+
+task checkstyle() {
+    group = 'verification'
+}
+
+checkstyle.dependsOn 'detekt'
+check.dependsOn checkstyle

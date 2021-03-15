@@ -32,7 +32,6 @@ public class ExpandableTextView extends AppCompatTextView {
     private boolean mListenersInitialized = false;
     private boolean mLayoutCalcsInitialized = false;
 
-
     public ExpandableTextView(Context context) {
         this(context, null);
     }
@@ -45,7 +44,6 @@ public class ExpandableTextView extends AppCompatTextView {
         super(context, attrs, defStyleAttr);
         initializeListeners();
     }
-
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {

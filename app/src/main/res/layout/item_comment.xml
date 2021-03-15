@@ -10,7 +10,7 @@
     android:paddingBottom="8dp">
 
     <ImageView
-        android:id="@+id/item_comment_imageview"
+        android:id="@+id/user_image_view"
         android:layout_width="45dp"
         android:layout_height="45dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/user_image_placeholder" />
 
     <TextView
-        android:id="@+id/item_comment_name_textview"
+        android:id="@+id/user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,24 +27,24 @@
         android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/item_comment_imageview"
-        app:layout_constraintTop_toTopOf="@id/item_comment_imageview"
+        app:layout_constraintStart_toEndOf="@id/user_image_view"
+        app:layout_constraintTop_toTopOf="@id/user_image_view"
         tools:text="Keith Lehman" />
 
     <TextView
-        android:id="@+id/item_comment_age_textview"
+        android:id="@+id/age_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/mediumGray"
         android:textSize="13sp"
-        app:layout_constraintStart_toEndOf="@id/item_comment_name_textview"
-        app:layout_constraintTop_toTopOf="@id/item_comment_imageview"
+        app:layout_constraintStart_toEndOf="@id/user_name_text_view"
+        app:layout_constraintTop_toTopOf="@id/user_image_view"
         tools:text=" ⋅ 7 hours ago" />
 
     <TextView
-        android:id="@+id/item_comment_comment_textview"
+        android:id="@+id/comment_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -53,8 +53,8 @@
         android:textColor="@color/black"
         android:textSize="11.5sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_comment_imageview"
-        app:layout_constraintTop_toBottomOf="@id/item_comment_name_textview"
+        app:layout_constraintStart_toEndOf="@id/user_image_view"
+        app:layout_constraintTop_toBottomOf="@id/user_name_text_view"
         tools:text="Good video, but sad how what should have been a joyful meeting with Martin's parents turned dark. Odd - but well done." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

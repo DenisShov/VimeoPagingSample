@@ -1,35 +1,36 @@
 package com.dshovhenia.playgroundapp.ui.details.comments
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.item_comment.view.*
 import com.dshovhenia.playgroundapp.GlideApp
 import com.dshovhenia.playgroundapp.R
-import com.dshovhenia.playgroundapp.data.model.comment.Comment
-import com.dshovhenia.playgroundapp.paging.base.list_item.ListItemViewHolder
+import com.dshovhenia.playgroundapp.data.cache.model.comment.CachedComment
+import com.dshovhenia.playgroundapp.data.cache.model.comment.RelationsComment
+import com.dshovhenia.playgroundapp.databinding.ItemCommentBinding
+import com.dshovhenia.playgroundapp.paging.base.ListItemViewHolder
 import com.dshovhenia.playgroundapp.util.VimeoTextUtil
 import java.util.*
 
-class CommentViewHolder(baseFragment: Fragment, inflater: LayoutInflater, parent: ViewGroup) :
-  ListItemViewHolder<Comment>(
-    baseFragment, inflater.inflate(R.layout.item_comment, parent, false)
-  ) {
+class CommentViewHolder(
+  baseFragment: Fragment,
+  private val itemCommentBinding: ItemCommentBinding
+) : ListItemViewHolder<RelationsComment>(baseFragment, itemCommentBinding.root) {
 
-  override fun bind(listItem: Comment, onItemClick: ((Comment) -> Unit)?) {
-    itemView.run {
-      item_comment_name_textview!!.text = listItem.user!!.name
+  override fun bind(listItem: RelationsComment, onItemClick: ((RelationsComment) -> Unit)?) {
+    val comment = CachedComment().initialize(listItem)
+
+    itemCommentBinding.apply {
+      userNameTextView.text = comment.user!!.name
       val commentAge = String.format(
         Locale.getDefault(),
         " ⋅ %s",
-        VimeoTextUtil.dateCreatedToTimePassed(listItem.created_on!!)
+        VimeoTextUtil.dateCreatedToTimePassed(comment.created_on!!)
       )
-      item_comment_age_textview!!.text = commentAge
-      item_comment_comment_textview!!.text = listItem.text
+      ageTextView.text = commentAge
+      commentTextView.text = comment.text
 
-      GlideApp.with(mBaseFragment).load(listItem.user!!.cachedPictures!!.sizes[1].link)
+      GlideApp.with(mBaseFragment).load(comment.user!!.pictureSizes[1].link)
         .placeholder(R.drawable.user_image_placeholder).fallback(R.drawable.user_image_placeholder)
-        .circleCrop().into(item_comment_imageview!!)
+        .circleCrop().into(userImageView)
     }
   }
 

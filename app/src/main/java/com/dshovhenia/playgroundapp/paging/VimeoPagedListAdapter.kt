@@ -3,15 +3,16 @@ package com.dshovhenia.playgroundapp.paging
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
-import com.dshovhenia.playgroundapp.paging.base.list_item.ListItemViewHolder
-import com.dshovhenia.playgroundapp.paging.base.list_item.ListItemViewHolder.ListItemViewHolderGenerator
+import com.dshovhenia.playgroundapp.paging.base.ListItemViewHolder
+import com.dshovhenia.playgroundapp.paging.base.ListItemViewHolder.ListItemViewHolderGenerator
 
-class VimeoPagedListAdapter<T>(
+class VimeoPagedListAdapter<T : Any>(
   private val mBaseFragment: Fragment,
-  private val mViewHolderGenerator: ListItemViewHolderGenerator<T>
-) : PagedListAdapter<T, ListItemViewHolder<T>>(DIFF_CALLBACK<T>()) {
+  private val mViewHolderGenerator: ListItemViewHolderGenerator<T>,
+  diffCallback: ItemCallback<T>
+) : PagingDataAdapter<T, ListItemViewHolder<T>>(diffCallback) {
 
   var onItemClick: ((T) -> Unit)? = null
 
@@ -29,15 +30,5 @@ class VimeoPagedListAdapter<T>(
 
   val isEmpty: Boolean
     get() = itemCount == 0
-
-  private class DIFF_CALLBACK<T> : ItemCallback<T>() {
-    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-      return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-      return oldItem == newItem
-    }
-  }
 
 }

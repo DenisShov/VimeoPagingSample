@@ -1,29 +1,34 @@
 package com.dshovhenia.playgroundapp.data.remote.deserializer
 
+import com.dshovhenia.playgroundapp.data.model.Connection
+import com.dshovhenia.playgroundapp.data.model.video.VideoMetadata
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
-import com.dshovhenia.playgroundapp.data.cache.model.connection.CachedConnection
-import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideoMetadata
 import java.lang.reflect.Type
 
-class VimeoMetadataVideoDeserializer : JsonDeserializer<CachedVideoMetadata> {
+class VimeoMetadataVideoDeserializer : JsonDeserializer<VideoMetadata> {
+
+  private val KEY_CONNECTIONS = "connections"
+  private val KEY_COMMENTS = "comments"
+  private val KEY_LIKES = "likes"
 
   @Throws(JsonParseException::class)
   override fun deserialize(
     json: JsonElement, typeOfT: Type, context: JsonDeserializationContext
-  ): CachedVideoMetadata {
+  ): VideoMetadata {
     val jsonObject = json.asJsonObject
 
-    val jsonConnectionsObject = jsonObject.getAsJsonObject("connections")
-    val comments = context.deserialize<CachedConnection>(
-      jsonConnectionsObject.get("comments"), CachedConnection::class.java
+    val jsonConnectionsObject = jsonObject.getAsJsonObject(KEY_CONNECTIONS)
+    val comments = context.deserialize<Connection>(
+      jsonConnectionsObject.get(KEY_COMMENTS), Connection::class.java
     )
-    val likes = context.deserialize<CachedConnection>(
-      jsonConnectionsObject.get("likes"), CachedConnection::class.java
+    val likes = context.deserialize<Connection>(
+      jsonConnectionsObject.get(KEY_LIKES), Connection::class.java
     )
 
-    return CachedVideoMetadata(comments, likes)
+    return VideoMetadata(comments, likes)
   }
+
 }

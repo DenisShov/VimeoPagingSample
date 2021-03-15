@@ -1,37 +1,41 @@
 package com.dshovhenia.playgroundapp.data.cache.model.user
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import com.dshovhenia.playgroundapp.data.cache.db.DbConstants
 import com.dshovhenia.playgroundapp.data.cache.model.comment.CachedComment
-import com.dshovhenia.playgroundapp.data.cache.model.pictures.CachedPictures
+import com.dshovhenia.playgroundapp.data.cache.model.pictures.CachedPictureSizes
 import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
+import java.util.*
 
 @Entity(
   tableName = DbConstants.USER_TABLE_NAME,
   foreignKeys = [
     ForeignKey(
       entity = CachedComment::class,
-      parentColumns = ["uri"],
+      parentColumns = ["id"],
       childColumns = ["commentId"],
       onDelete = CASCADE
     ),
     ForeignKey(
       entity = CachedVideo::class,
-      parentColumns = ["uri"],
+      parentColumns = ["id"],
       childColumns = ["videoId"],
       onDelete = CASCADE
-    )]
+    )],
+  indices = [Index(value = ["commentId"]), Index(value = ["videoId"])]
 )
-class CachedUser(
+data class CachedUser(
   var name: String = "",
-  var pictures: CachedPictures?,
-  var userMetadata: CachedUserMetadata?
+  var followersUri: String = "",
+  var followersTotal: Int = 0,
+  var videosUri: String = "",
+  var videosTotal: Int = 0,
+  @Ignore
+  var pictureSizes: List<CachedPictureSizes> = ArrayList()
 ) {
   @PrimaryKey(autoGenerate = true)
-  var id: Long = 0
-  var commentId: Long = 0
-  var videoId: Long = 0
+  var id: Long? = null
+  var commentId: Long? = null
+  var videoId: Long? = null
 }

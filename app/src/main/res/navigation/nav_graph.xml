@@ -20,9 +20,5 @@
     <fragment
         android:id="@+id/videoFragment"
         android:name="com.dshovhenia.playgroundapp.ui.details.VideoFragment"
-        android:label="VideoFragment">
-        <argument
-            android:name="vimeoVideo"
-            app:argType="com.dshovhenia.playgroundapp.data.model.VimeoVideo" />
-    </fragment>
+        android:label="VideoFragment" />
 </navigation>

@@ -11,27 +11,23 @@ class AccessToken {
   var accessToken = ""
   @SerializedName(FIELD_TOKEN_TYPE)
   @Expose
-  private var token_type = ""
+  var tokenType = ""
+    get() = // OAuth requires uppercase Authorization HTTP header value for token type
+      if (field.isNotEmpty() && !Character.isUpperCase(field[0])) {
+        firstLetterToUpperCase(field)
+      } else {
+        field
+      }
+
   @SerializedName(FIELD_SCOPE)
   @Expose
   var scope = ""
-
-  var tokenType: String
-    get() {
-      return tokenType.let {
-        // OAuth requires uppercase Authorization HTTP header value for token type
-        if (!Character.isUpperCase(it[0])) firstLetterToUpperCase(it) else it
-      }
-    }
-    set(token_type) {
-      this.token_type = token_type
-    }
 
   private fun firstLetterToUpperCase(string: String) =
     string[0].toString().toUpperCase(Locale.getDefault()) + string.substring(1)
 
   val authorizationHeader: String
-    get() = if (token_type.isEmpty()) "" else "$tokenType $accessToken"
+    get() = if (tokenType.isEmpty()) "" else "$tokenType $accessToken"
 
   override fun toString(): String {
     return "AccessToken:\n- access_token: $accessToken\n- token_type: $tokenType\n- scope: $scope\n"

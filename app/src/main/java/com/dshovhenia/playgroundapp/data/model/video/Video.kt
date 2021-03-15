@@ -13,9 +13,10 @@ import java.util.*
 class Video(
   var uri: String = "",
   var name: String = "",
-  var description: String = "",
+  var description: String?,
   var duration: Int = 0,
   var createdTime: Date?,
+  var nextPage: String = "",
   var user: User?,
   var pictures: Pictures?,
   var metadata: VideoMetadata?,

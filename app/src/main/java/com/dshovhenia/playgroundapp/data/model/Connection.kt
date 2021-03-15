@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Connection(
-    var uri: String = "", var total: Int = 0
+  var uri: String = "", var total: Int = 0
 ) : Parcelable

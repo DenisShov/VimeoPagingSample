@@ -6,9 +6,10 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class Comment(
+data class Comment(
   var uri: String = "",
   var text: String = "",
   var created_on: Date? = null,
+  var nextPage: String = "",
   var user: User? = null
 ) : Parcelable

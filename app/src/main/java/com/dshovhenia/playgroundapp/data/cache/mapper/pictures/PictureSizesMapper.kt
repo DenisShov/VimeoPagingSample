@@ -7,11 +7,9 @@ import javax.inject.Inject
 
 class PictureSizesMapper @Inject constructor() : Mapper<CachedPictureSizes, PictureSizes> {
 
-  override fun mapFrom(type: CachedPictureSizes?): PictureSizes? {
-    return type?.let { PictureSizes(it.width, it.height, it.link) }
-  }
+  override fun mapFrom(type: CachedPictureSizes) =
+    PictureSizes(type.width, type.height, type.link)
 
-  override fun mapTo(type: PictureSizes?): CachedPictureSizes? {
-    return type?.let { CachedPictureSizes(it.width, it.height, it.link) }
-  }
+  override fun mapTo(type: PictureSizes) =
+    CachedPictureSizes(type.width, type.height, type.link)
 }
