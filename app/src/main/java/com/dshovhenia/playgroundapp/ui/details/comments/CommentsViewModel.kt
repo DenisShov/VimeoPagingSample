@@ -1,45 +1,34 @@
 package com.dshovhenia.playgroundapp.ui.details.comments
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import com.dshovhenia.playgroundapp.data.DataManager
-import com.dshovhenia.playgroundapp.data.model.VimeoComment
-import com.dshovhenia.playgroundapp.paging.comments.CommentsDataSourceFactory
-import javax.inject.Inject
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.dshovhenia.playgroundapp.data.cache.model.comment.RelationsComment
+import com.dshovhenia.playgroundapp.data.repository.CommentRepository
 
-class CommentsViewModel @Inject constructor(private var mDataManager: DataManager) : ViewModel() {
+class CommentsViewModel @ViewModelInject constructor(
+  private val commentRepository: CommentRepository
+) : ViewModel() {
 
-  private val dataSourceFactory = CommentsDataSourceFactory(
-    mDataManager, viewModelScope
-  )
+  companion object {
+    const val NETWORK_PAGE_SIZE = 50
+  }
 
-  internal val commentListLiveData: LiveData<PagedList<VimeoComment>>
-  internal val stateLiveData =
-    Transformations.switchMap(dataSourceFactory.collectionDataSourceLiveData) {
-      it.stateLiveData
+  private val queryLiveData = MutableLiveData<String>()
+  val commentResult: LiveData<PagingData<RelationsComment>> =
+    queryLiveData.switchMap { initialUri ->
+      liveData {
+        val repos = getResultStream(initialUri)
+        emitSource(repos)
+      }
     }
 
-  init {
-    val config = PagedList.Config.Builder().setPageSize(10).setInitialLoadSizeHint(20)
-      .setEnablePlaceholders(false).build()
-    commentListLiveData = LivePagedListBuilder(dataSourceFactory, config).build()
-  }
+  private fun getResultStream(initialUri: String) =
+    commentRepository.getComments(initialUri).cachedIn(viewModelScope)
 
   fun onInitialListRequested(url: String) {
-    dataSourceFactory.setInitialUri(url)
-    invalidateDataSource()
+    commentRepository.clearComments()
+    queryLiveData.postValue(url)
   }
-
-  fun retry() {
-    dataSourceFactory.collectionDataSourceLiveData.value?.retry()
-  }
-
-  fun invalidateDataSource() {
-    dataSourceFactory.collectionDataSourceLiveData.value?.invalidate()
-  }
-
 }

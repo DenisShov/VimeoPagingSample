@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Vimeo</string>
 
-    <string name="action_search">Search videos</string>
+    <string name="search">Search</string>
+    <string name="comments">Comments</string>
 
     <!-- HomeFragment -->
     <plurals name="video_feed_likes_plural">
@@ -10,16 +11,13 @@
     </plurals>
 
     <!-- Errors and Actions after errors -->
-    <string name="error_no_videos_to_display">No videos to display</string>
-    <string name="error_no_comments_to_display">No comments to display</string>
-    <string name="error_generic_server_error">There was an error contacting the server, %1$s</string>
-    <string name="action_try_again">Try Again</string>
-    <string name="action_check_again">Check Again</string>
+    <string name="error_generic_server_error">There was an error contacting the server</string>
+    <string name="retry">Retry</string>
 
-    <plurals name="video_pager_adapter_comments_plural">
-        <item quantity="one">%1$d comment</item>
-        <item quantity="other">%1$d comments</item>
-    </plurals>
-
+    <!-- Image descriptions -->
+    <string name="image_description_user_image">User image</string>
+    <string name="image_description_video_image">Video image</string>
+    <string name="image_description_expand">Expand</string>
+    <string name="image_description_attention">Attention</string>
 
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/video_appBarLayout"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
@@ -19,7 +19,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/video_details_layout"
+                android:id="@+id/details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="200dp">
@@ -41,7 +41,7 @@
                     tools:text="funny videos" />
 
                 <TextView
-                    android:id="@+id/video_plays_text"
+                    android:id="@+id/plays_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -52,7 +52,7 @@
                     tools:text="1.7k plays ⋅ 4 years ago" />
 
                 <include
-                    android:id="@+id/include_video_description_layout"
+                    android:id="@+id/include_description_layout"
                     layout="@layout/layout_expandable_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,17 +61,17 @@
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/video_plays_text" />
+                    app:layout_constraintTop_toBottomOf="@id/plays_text" />
 
                 <View
-                    android:id="@+id/video_divider"
+                    android:id="@+id/divider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/mediumLightGray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/include_video_description_layout" />
+                    app:layout_constraintTop_toBottomOf="@+id/include_description_layout" />
 
                 <include
                     android:id="@+id/include_item_user"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/video_divider" />
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -98,7 +98,7 @@
                     android:layout_height="match_parent">
 
                     <WebView
-                        android:id="@+id/video_image"
+                        android:id="@+id/web_view"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="fitXY"
@@ -118,7 +118,7 @@
                         android:paddingBottom="3dp"
                         android:textColor="@color/white"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/video_image"
+                        app:layout_constraintBottom_toBottomOf="@+id/web_view"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:text="03:45" />
 
@@ -131,13 +131,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/video_viewpager"
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/video_tablayout"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
@@ -146,9 +146,5 @@
             app:layout_scrollFlags="scroll|enterAlways" />
 
     </androidx.viewpager.widget.ViewPager>
-
-    <include layout="@layout/layout_progress" />
-
-    <include layout="@layout/layout_message" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

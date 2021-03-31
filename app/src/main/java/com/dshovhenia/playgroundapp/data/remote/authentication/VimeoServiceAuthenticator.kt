@@ -11,14 +11,14 @@ import okhttp3.Response
 import okhttp3.Route
 import timber.log.Timber
 import com.dshovhenia.playgroundapp.BuildConfig
-import com.dshovhenia.playgroundapp.data.local.AccessToken
-import com.dshovhenia.playgroundapp.data.local.PreferencesHelper
-import com.dshovhenia.playgroundapp.data.remote.VimeoApiService
+import com.dshovhenia.playgroundapp.data.cache.preferences.model.AccessToken
+import com.dshovhenia.playgroundapp.data.cache.preferences.PreferencesHelper
+import com.dshovhenia.playgroundapp.data.remote.service.VimeoApiService
 import javax.inject.Inject
 
 class VimeoServiceAuthenticator @Inject constructor(
   // Lazy computes its value on the first call to get() and remembers that same value for all subsequent calls to get().
-  val mVimeoApiService: Lazy<VimeoApiService>, val mPrefHelper: PreferencesHelper
+  val vimeoApiService: Lazy<VimeoApiService>, val prefHelper: PreferencesHelper
 ) : Authenticator {
 
   private var newAccessToken: AccessToken? = null
@@ -34,13 +34,12 @@ class VimeoServiceAuthenticator @Inject constructor(
     runBlocking(Dispatchers.IO) {
       launch {
         runCatching {
-          newAccessToken = mVimeoApiService.get().getUnauthenticatedToken(
-            basicAuthorizationHeader(BuildConfig.CLIENT_ID, BuildConfig.CLIENT_SECRET)
-          )
+          newAccessToken = vimeoApiService.get()
+            .getUnauthenticatedToken(basicAuthorizationHeader(BuildConfig.CLIENT_ID, BuildConfig.CLIENT_SECRET))
         }.onSuccess {
-          Timber.i("We hit onSuccess")
+          Timber.i("Access token received successfully")
         }.onFailure {
-          Timber.i("We hit onFailure")
+          Timber.e("Failed to get access token")
         }
       }
     }
@@ -51,7 +50,7 @@ class VimeoServiceAuthenticator @Inject constructor(
       newRequest = response.request().newBuilder()
         .header("Authorization", newAccessToken!!.authorizationHeader).build()
       // We need to save the newAccessToken in SharedPref
-      mPrefHelper.accessToken = newAccessToken!!
+      prefHelper.accessToken = newAccessToken!!
     } else {
       Timber.e("Failed to get Unauthenticated token")
     }
@@ -67,9 +66,6 @@ class VimeoServiceAuthenticator @Inject constructor(
     return result
   }
 
-  private fun basicAuthorizationHeader(clientId: String, clientSecret: String): String {
-    val rawString = "$clientId:$clientSecret"
-    return "basic " + Base64.encodeToString(rawString.toByteArray(), Base64.NO_WRAP)
-  }
-
+  private fun basicAuthorizationHeader(clientId: String, clientSecret: String) =
+    "basic " + Base64.encodeToString("$clientId:$clientSecret".toByteArray(), Base64.NO_WRAP)
 }
