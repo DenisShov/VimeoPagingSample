@@ -14,14 +14,14 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.*
 import com.dshovhenia.playgroundapp.R
-import com.dshovhenia.playgroundapp.data.cache.mapper.relations_mapper.RelationsVideoMapper
+import com.dshovhenia.playgroundapp.data.cache.mapper.relationsMapper.RelationsVideoMapper
 import com.dshovhenia.playgroundapp.data.cache.model.video.RelationsVideo
 import com.dshovhenia.playgroundapp.databinding.FragmentHomeBinding
 import com.dshovhenia.playgroundapp.databinding.ItemVideoFeedBinding
 import com.dshovhenia.playgroundapp.paging.VimeoPagedListAdapter
 import com.dshovhenia.playgroundapp.paging.base.ListItemViewHolder
 import com.dshovhenia.playgroundapp.paging.base.MarginDividerItemDecoration
-import com.dshovhenia.playgroundapp.paging.load_state.ExampleLoadStateAdapter
+import com.dshovhenia.playgroundapp.paging.loadState.MyLoadStateAdapter
 import com.dshovhenia.playgroundapp.ui.base.BaseFragment
 import com.dshovhenia.playgroundapp.ui.details.VideoFragment
 import com.dshovhenia.playgroundapp.util.DisplayMetricsUtil
@@ -94,7 +94,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
       val bundle = bundleOf(VideoFragment.ARG_VIDEO_ID to relationsVideo.video.id)
       findNavController().navigate(R.id.action_homeFragment_to_videoFragment, bundle)
     }
-    concatAdapter = pagerAdapter.withLoadStateFooter(ExampleLoadStateAdapter(pagerAdapter::retry))
+    concatAdapter = pagerAdapter.withLoadStateFooter(MyLoadStateAdapter(pagerAdapter::retry))
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

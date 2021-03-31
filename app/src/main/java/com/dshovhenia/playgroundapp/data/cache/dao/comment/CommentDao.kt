@@ -7,6 +7,7 @@ import com.dshovhenia.playgroundapp.data.cache.model.comment.CachedComment
 import com.dshovhenia.playgroundapp.data.cache.model.comment.RelationsComment
 
 @Dao
+@Suppress("UnnecessaryAbstractClass")
 abstract class CommentDao {
 
   @Transaction

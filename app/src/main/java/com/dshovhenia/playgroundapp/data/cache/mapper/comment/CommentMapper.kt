@@ -22,7 +22,7 @@ class CommentMapper @Inject constructor(private val userMapper: UserMapper) :
     CachedComment(
       type.uri,
       type.text,
-      type.created_on,
+      type.createdOn,
       type.nextPage,
       userMapper.mapTo(type.user!!)
     )

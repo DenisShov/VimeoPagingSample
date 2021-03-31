@@ -4,11 +4,11 @@ import android.content.res.Resources
 
 object DisplayMetricsUtil {
 
-  class Dimensions(val width: Int, val height: Int)
+  const val TAB_LAYOUT_SPAN_SIZE = 2
+  const val VIDEO_ASPECT_RATIO = 16.toFloat() / 9
+  private const val SCREEN_TABLET_DP_WIDTH = 600
 
-  val TAB_LAYOUT_SPAN_SIZE = 2
-  var VIDEO_ASPECT_RATIO = 16.toFloat() / 9
-  private val SCREEN_TABLET_DP_WIDTH = 600
+  class Dimensions(val width: Int, val height: Int)
 
   val isTabletLayout: Boolean
     get() {

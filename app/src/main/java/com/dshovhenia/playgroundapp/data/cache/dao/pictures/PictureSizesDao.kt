@@ -5,6 +5,7 @@ import com.dshovhenia.playgroundapp.data.cache.db.DbConstants
 import com.dshovhenia.playgroundapp.data.cache.model.pictures.CachedPictureSizes
 
 @Dao
+@Suppress("UnnecessaryAbstractClass")
 abstract class PictureSizesDao {
 
   @Query("SELECT * FROM " + DbConstants.PICTURE_SIZES_TABLE_NAME)

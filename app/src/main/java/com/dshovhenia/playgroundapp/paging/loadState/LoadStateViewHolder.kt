@@ -1,4 +1,4 @@
-package com.dshovhenia.playgroundapp.paging.load_state
+package com.dshovhenia.playgroundapp.paging.loadState
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

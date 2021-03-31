@@ -50,12 +50,11 @@ class VideoRemoteMediator(
         }
       }
 
-      val response =
-        if (loadKey == null) {
-          service.getVideos(initialUri, searchQuery, 1, 20)
-        } else {
-          service.getVideos(loadKey, null, null, null)
-        }
+      val response = if (loadKey == null) {
+        service.getVideos(initialUri, searchQuery, 1, PER_PAGE_COUNT)
+      } else {
+        service.getVideos(loadKey, null, null, null)
+      }
 
       if (loadType == LoadType.REFRESH) {
         videoDbHelper.clear()
@@ -88,5 +87,9 @@ class VideoRemoteMediator(
       it.nextPage = collection.paging!!.next ?: ""
       it
     }
+
+  companion object {
+    private const val PER_PAGE_COUNT = 20
+  }
 
 }

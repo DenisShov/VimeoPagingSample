@@ -15,7 +15,7 @@ import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
 @Database(
   entities = [CachedComment::class, CachedVideo::class,
     CachedPictureSizes::class, CachedUser::class
-  ], version = 1
+  ], version = 1, exportSchema = false
 )
 @TypeConverters(DateConverter::class)
 abstract class VimeoDatabase : RoomDatabase() {

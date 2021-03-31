@@ -10,10 +10,6 @@ import java.lang.reflect.Type
 
 class VimeoMetadataVideoDeserializer : JsonDeserializer<VideoMetadata> {
 
-  private val KEY_CONNECTIONS = "connections"
-  private val KEY_COMMENTS = "comments"
-  private val KEY_LIKES = "likes"
-
   @Throws(JsonParseException::class)
   override fun deserialize(
     json: JsonElement, typeOfT: Type, context: JsonDeserializationContext
@@ -31,4 +27,9 @@ class VimeoMetadataVideoDeserializer : JsonDeserializer<VideoMetadata> {
     return VideoMetadata(comments, likes)
   }
 
+  companion object {
+    private const val KEY_CONNECTIONS = "connections"
+    private const val KEY_COMMENTS = "comments"
+    private const val KEY_LIKES = "likes"
+  }
 }

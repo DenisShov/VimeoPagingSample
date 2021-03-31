@@ -1,10 +1,10 @@
-package com.dshovhenia.playgroundapp.paging.load_state
+package com.dshovhenia.playgroundapp.paging.loadState
 
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 
-class ExampleLoadStateAdapter(
+class MyLoadStateAdapter(
   private val retry: () -> Unit
 ) : LoadStateAdapter<LoadStateViewHolder>() {
 

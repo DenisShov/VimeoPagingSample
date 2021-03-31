@@ -2,7 +2,7 @@ package com.dshovhenia.playgroundapp.util
 
 object Constants {
 
-  val COLLECTION_URI = "videos"
-  val STAFF_PICKS_URI = "channels/staffpicks/videos"
+  const val COLLECTION_URI = "videos"
+  const val STAFF_PICKS_URI = "channels/staffpicks/videos"
 
 }

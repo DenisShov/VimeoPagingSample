@@ -23,6 +23,6 @@ class CommentsPagerAdapter(
   }
 
   companion object {
-    private val NUMBER_TABS = 1
+    private const val NUMBER_TABS = 1
   }
 }

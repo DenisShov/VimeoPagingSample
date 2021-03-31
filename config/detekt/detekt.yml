@@ -9,7 +9,6 @@ build:
 
 config:
   validation: true
-  warningsAsErrors: false
   # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
   excludes: ''
 
@@ -102,8 +101,6 @@ complexity:
   NestedBlockDepth:
     active: true
     threshold: 4
-  ReplaceSafeCallChainWithRun:
-    active: false
   StringLiteralDuplication:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
@@ -114,11 +111,11 @@ complexity:
   TooManyFunctions:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-    thresholdInFiles: 11
-    thresholdInClasses: 11
-    thresholdInInterfaces: 11
-    thresholdInObjects: 11
-    thresholdInEnums: 11
+    thresholdInFiles: 50
+    thresholdInClasses: 30
+    thresholdInInterfaces: 20
+    thresholdInObjects: 20
+    thresholdInEnums: 20
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
@@ -128,8 +125,6 @@ coroutines:
   GlobalCoroutineUsage:
     active: false
   RedundantSuspendModifier:
-    active: false
-  SuspendFunWithFlowReturnType:
     active: false
 
 empty-blocks:
@@ -231,12 +226,6 @@ formatting:
   android: false
   autoCorrect: true
   AnnotationOnSeparateLine:
-    active: false
-    autoCorrect: true
-  AnnotationSpacing:
-    active: false
-    autoCorrect: true
-  ArgumentListWrapping:
     active: false
     autoCorrect: true
   ChainWrapping:
@@ -358,7 +347,7 @@ naming:
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     classPattern: '[A-Z][a-zA-Z0-9]*'
   ConstructorParameterNaming:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     parameterPattern: '[a-z][A-Za-z0-9]*'
     privateParameterPattern: '[a-z][A-Za-z0-9]*'
@@ -402,9 +391,6 @@ naming:
   MemberNameEqualsClassName:
     active: true
     ignoreOverridden: true
-  NonBooleanPropertyPrefixedWithIs:
-    active: false
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
   ObjectPropertyNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
@@ -511,8 +497,6 @@ potential-bugs:
 
 style:
   active: true
-  ClassOrdering:
-    active: false
   CollapsibleIfStatements:
     active: false
   DataClassContainsFunctions:
@@ -596,7 +580,7 @@ style:
   NoTabs:
     active: false
   OptionalAbstractKeyword:
-    active: trueVimeoApiService
+    active: true
   OptionalUnit:
     active: false
   OptionalWhenBraces:
@@ -610,7 +594,7 @@ style:
   RedundantVisibilityModifierRule:
     active: false
   ReturnCount:
-    active: true
+    active: false
     max: 2
     excludedFunctions: 'equals'
     excludeLabeled: false
@@ -654,8 +638,6 @@ style:
     allowedNames: '(_|ignored|expected|serialVersionUID)'
   UseArrayLiteralsInAnnotations:
     active: false
-  UseCheckNotNull:
-    active: false
   UseCheckOrError:
     active: false
   UseDataClass:
@@ -668,8 +650,6 @@ style:
     active: false
   UseRequire:
     active: false
-  UseRequireNotNull:
-    active: false
   UselessCallOnNotNull:
     active: true
   UtilityClassWithPublicConstructor:
@@ -677,6 +657,6 @@ style:
   VarCouldBeVal:
     active: false
   WildcardImport:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     excludeImports: ['java.util.*', 'kotlinx.android.synthetic.*']

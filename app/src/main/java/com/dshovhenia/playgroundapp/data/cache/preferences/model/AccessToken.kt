@@ -8,7 +8,7 @@ class AccessToken {
 
   @SerializedName(FIELD_ACCESS_TOKEN)
   @Expose
-  var accessToken = ""
+  var token = ""
   @SerializedName(FIELD_TOKEN_TYPE)
   @Expose
   var tokenType = ""
@@ -27,10 +27,10 @@ class AccessToken {
     string[0].toString().toUpperCase(Locale.getDefault()) + string.substring(1)
 
   val authorizationHeader: String
-    get() = if (tokenType.isEmpty()) "" else "$tokenType $accessToken"
+    get() = if (tokenType.isEmpty()) "" else "$tokenType $token"
 
   override fun toString(): String {
-    return "AccessToken:\n- access_token: $accessToken\n- token_type: $tokenType\n- scope: $scope\n"
+    return "AccessToken:\n- access_token: $token\n- token_type: $tokenType\n- scope: $scope\n"
   }
 
   companion object {

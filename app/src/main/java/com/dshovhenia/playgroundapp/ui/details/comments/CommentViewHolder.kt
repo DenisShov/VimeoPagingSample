@@ -20,16 +20,20 @@ class CommentViewHolder(
 
     itemCommentBinding.apply {
       userNameTextView.text = comment.user!!.name
-      val commentAge = String.format(
-        Locale.getDefault(),
-        " ⋅ %s",
-        VimeoTextUtil.dateCreatedToTimePassed(comment.created_on!!)
-      )
-      ageTextView.text = commentAge
+      comment.created_on?.let {
+        val commentAge = String.format(
+          Locale.getDefault(),
+          " ⋅ %s",
+          VimeoTextUtil.dateCreatedToTimePassed(comment.created_on!!)
+        )
+        ageTextView.text = commentAge
+      }
+
       commentTextView.text = comment.text
 
       GlideApp.with(mBaseFragment).load(comment.user!!.pictureSizes[1].link)
-        .placeholder(R.drawable.user_image_placeholder).fallback(R.drawable.user_image_placeholder)
+        .placeholder(R.drawable.user_image_placeholder)
+        .fallback(R.drawable.user_image_placeholder)
         .circleCrop().into(userImageView)
     }
   }

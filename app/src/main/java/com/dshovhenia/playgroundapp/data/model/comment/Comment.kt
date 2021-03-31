@@ -2,14 +2,16 @@ package com.dshovhenia.playgroundapp.data.model.comment
 
 import android.os.Parcelable
 import com.dshovhenia.playgroundapp.data.model.user.User
-import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
 data class Comment(
   var uri: String = "",
   var text: String = "",
-  var created_on: Date? = null,
+  @SerializedName("created_on")
+  var createdOn: Date? = null,
   var nextPage: String = "",
   var user: User? = null
 ) : Parcelable

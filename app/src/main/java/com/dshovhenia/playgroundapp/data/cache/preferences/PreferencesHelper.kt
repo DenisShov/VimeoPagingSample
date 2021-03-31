@@ -8,23 +8,20 @@ import javax.inject.Inject
 
 class PreferencesHelper @Inject constructor(@ApplicationContext context: Context) {
 
-  private val PREF_FILE_NAME = "vimeo_pref_file"
-  private val PREF_KEY_VIDEO_LAST_CACHE = "video_last_cache"
-  private val PREF_KEY_COMMENT_LAST_CACHE = "comment_last_cache"
-
-  private val sharedPreferences: SharedPreferences
+  private val sharedPreferences: SharedPreferences =
+    context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
 
   var accessToken: AccessToken
     get() {
       val accessToken = AccessToken()
-      accessToken.accessToken = sharedPreferences.getString(AccessToken.FIELD_ACCESS_TOKEN, "")!!
+      accessToken.token = sharedPreferences.getString(AccessToken.FIELD_ACCESS_TOKEN, "")!!
       accessToken.tokenType = sharedPreferences.getString(AccessToken.FIELD_TOKEN_TYPE, "")!!
       accessToken.scope = sharedPreferences.getString(AccessToken.FIELD_SCOPE, "")!!
       return accessToken
     }
     set(accessToken) {
       sharedPreferences.edit()
-        .putString(AccessToken.FIELD_ACCESS_TOKEN, accessToken.accessToken)
+        .putString(AccessToken.FIELD_ACCESS_TOKEN, accessToken.token)
         .putString(AccessToken.FIELD_TOKEN_TYPE, accessToken.tokenType)
         .putString(AccessToken.FIELD_SCOPE, accessToken.scope)
         .apply()
@@ -42,15 +39,7 @@ class PreferencesHelper @Inject constructor(@ApplicationContext context: Context
     sharedPreferences.edit().clear().apply()
   }
 
-  var videoLastCacheTime: Long
-    get() = sharedPreferences.getLong(PREF_KEY_VIDEO_LAST_CACHE, 0)
-    set(lastCache) = sharedPreferences.edit().putLong(PREF_KEY_VIDEO_LAST_CACHE, lastCache).apply()
-
-  var commentLastCacheTime: Long
-    get() = sharedPreferences.getLong(PREF_KEY_COMMENT_LAST_CACHE, 0)
-    set(lastCache) = sharedPreferences.edit().putLong(PREF_KEY_COMMENT_LAST_CACHE, lastCache).apply()
-
-  init {
-    sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
+  companion object {
+    private const val PREF_FILE_NAME = "vimeo_pref_file"
   }
 }

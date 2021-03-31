@@ -1,4 +1,4 @@
-package com.dshovhenia.playgroundapp.data.cache.mapper.relations_mapper
+package com.dshovhenia.playgroundapp.data.cache.mapper.relationsMapper
 
 import com.dshovhenia.playgroundapp.data.cache.mapper.Mapper
 import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo

@@ -4,12 +4,13 @@ import android.os.Parcelable
 import com.dshovhenia.playgroundapp.data.model.pictures.Pictures
 import com.dshovhenia.playgroundapp.data.model.user.User
 import com.dshovhenia.playgroundapp.util.parceler.DateParceler
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.TypeParceler
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
 import java.util.*
 
 @Parcelize
 @TypeParceler<Date, DateParceler>
+@Suppress("LongParameterList")
 class Video(
   var uri: String = "",
   var name: String = "",

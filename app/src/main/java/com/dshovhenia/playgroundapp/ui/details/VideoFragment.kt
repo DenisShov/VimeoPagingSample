@@ -146,8 +146,8 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
   }
 
   companion object {
-    val ARG_VIDEO_ID = "arg_video_id"
-    val SAVED_VIDEO_ID = "saved_video_id"
+    const val ARG_VIDEO_ID = "arg_video_id"
+    const val SAVED_VIDEO_ID = "saved_video_id"
   }
 
 }

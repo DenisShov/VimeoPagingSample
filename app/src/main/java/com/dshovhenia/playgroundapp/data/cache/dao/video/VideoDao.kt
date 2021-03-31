@@ -7,6 +7,7 @@ import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
 import com.dshovhenia.playgroundapp.data.cache.model.video.RelationsVideo
 
 @Dao
+@Suppress("UnnecessaryAbstractClass")
 abstract class VideoDao {
 
   @Transaction

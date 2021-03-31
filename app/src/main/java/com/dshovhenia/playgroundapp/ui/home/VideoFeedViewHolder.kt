@@ -4,7 +4,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.dshovhenia.playgroundapp.GlideApp
 import com.dshovhenia.playgroundapp.R
-import com.dshovhenia.playgroundapp.data.cache.mapper.relations_mapper.RelationsVideoMapper
+import com.dshovhenia.playgroundapp.data.cache.mapper.relationsMapper.RelationsVideoMapper
 import com.dshovhenia.playgroundapp.data.cache.model.video.RelationsVideo
 import com.dshovhenia.playgroundapp.databinding.ItemVideoFeedBinding
 import com.dshovhenia.playgroundapp.paging.base.ListItemViewHolder

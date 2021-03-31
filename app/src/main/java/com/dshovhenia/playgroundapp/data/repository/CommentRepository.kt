@@ -13,6 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@OptIn(androidx.paging.ExperimentalPagingApi::class)
 class CommentRepository @Inject constructor(
   val vimeoDatabase: VimeoDatabase,
   val commentDbHelper: CommentDbHelper,

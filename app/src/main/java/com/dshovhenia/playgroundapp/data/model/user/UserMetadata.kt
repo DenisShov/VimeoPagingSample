@@ -2,7 +2,7 @@ package com.dshovhenia.playgroundapp.data.model.user
 
 import android.os.Parcelable
 import com.dshovhenia.playgroundapp.data.model.Connection
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class UserMetadata(

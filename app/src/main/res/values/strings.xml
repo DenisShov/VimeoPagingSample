@@ -11,8 +11,13 @@
     </plurals>
 
     <!-- Errors and Actions after errors -->
-    <string name="error_no_comments_to_display">No comments to display</string>
     <string name="error_generic_server_error">There was an error contacting the server</string>
     <string name="retry">Retry</string>
+
+    <!-- Image descriptions -->
+    <string name="image_description_user_image">User image</string>
+    <string name="image_description_video_image">Video image</string>
+    <string name="image_description_expand">Expand</string>
+    <string name="image_description_attention">Attention</string>
 
 </resources>

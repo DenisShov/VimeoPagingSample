@@ -22,7 +22,7 @@ import com.dshovhenia.playgroundapp.databinding.ItemCommentBinding
 import com.dshovhenia.playgroundapp.paging.VimeoPagedListAdapter
 import com.dshovhenia.playgroundapp.paging.base.ListItemViewHolder
 import com.dshovhenia.playgroundapp.paging.base.MarginDividerItemDecoration
-import com.dshovhenia.playgroundapp.paging.load_state.ExampleLoadStateAdapter
+import com.dshovhenia.playgroundapp.paging.loadState.MyLoadStateAdapter
 import com.dshovhenia.playgroundapp.ui.base.BaseFragment
 import com.dshovhenia.playgroundapp.util.DisplayMetricsUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -107,7 +107,7 @@ class CommentsFragment : BaseFragment<FragmentCommentsBinding>() {
           context, LinearLayoutManager.VERTICAL, R.dimen.recycler_view_divider_margin
         )
       )
-      adapter = pagerAdapter.withLoadStateFooter(ExampleLoadStateAdapter(pagerAdapter::retry))
+      adapter = pagerAdapter.withLoadStateFooter(MyLoadStateAdapter(pagerAdapter::retry))
     }
 
     binding.messageLayout.tryAgainButton.setOnClickListener {
@@ -139,7 +139,7 @@ class CommentsFragment : BaseFragment<FragmentCommentsBinding>() {
 
   fun showError() {
     binding.messageLayout.apply {
-      icon.setImageResource(R.drawable.ic_error_outline_black_48dp)
+//      icon.setImageResource(R.drawable.ic_error_outline_black_48dp)
       message.text = getString(R.string.error_generic_server_error)
       tryAgainButton.text = getString(R.string.retry)
     }
@@ -156,8 +156,8 @@ class CommentsFragment : BaseFragment<FragmentCommentsBinding>() {
   }
 
   companion object {
-    private val SAVED_VIMEO_CONNECTION = "saved_video_connection"
-    private val ARG_VIMEO_CONNECTION = "vimeo_connection"
+    private const val SAVED_VIMEO_CONNECTION = "saved_video_connection"
+    private const val ARG_VIMEO_CONNECTION = "vimeo_connection"
 
     fun newInstance(commentUrl: String): CommentsFragment {
       val args = Bundle()

@@ -8,6 +8,7 @@ import com.dshovhenia.playgroundapp.data.cache.db.DbConstants
 import com.dshovhenia.playgroundapp.data.cache.model.user.CachedUser
 
 @Dao
+@Suppress("UnnecessaryAbstractClass")
 abstract class UserDao {
 
   @Query("SELECT * FROM " + DbConstants.USER_TABLE_NAME)

@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.dshovhenia.playgroundapp.data.cache.db.VimeoDatabase
 import com.dshovhenia.playgroundapp.data.cache.helper.VideoDbHelper
-import com.dshovhenia.playgroundapp.data.cache.mapper.relations_mapper.RelationsVideoMapper
+import com.dshovhenia.playgroundapp.data.cache.mapper.relationsMapper.RelationsVideoMapper
 import com.dshovhenia.playgroundapp.data.cache.mapper.video.VideoMapper
 import com.dshovhenia.playgroundapp.data.cache.model.video.CachedVideo
 import com.dshovhenia.playgroundapp.data.remote.service.VimeoApiService
@@ -15,6 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@OptIn(androidx.paging.ExperimentalPagingApi::class)
 class VideoRepository @Inject constructor(
   private val vimeoApiService: VimeoApiService,
   private val vimeoDatabase: VimeoDatabase,

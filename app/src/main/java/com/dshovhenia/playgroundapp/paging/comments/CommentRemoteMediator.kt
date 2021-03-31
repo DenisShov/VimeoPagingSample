@@ -28,9 +28,7 @@ class CommentRemoteMediator(
     return try {
       val loadKey = when (loadType) {
         LoadType.REFRESH -> null
-        LoadType.PREPEND -> return MediatorResult.Success(
-          endOfPaginationReached = true
-        )
+        LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
         LoadType.APPEND -> {
           val remoteKey =
             state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.comment?.nextPage
@@ -41,9 +39,7 @@ class CommentRemoteMediator(
           // reached the end of pagination and there are no more
           // items to load.
           if (remoteKey == null) {
-            return MediatorResult.Success(
-              endOfPaginationReached = true
-            )
+            return MediatorResult.Success(endOfPaginationReached = true)
           }
 
           remoteKey
@@ -51,10 +47,10 @@ class CommentRemoteMediator(
       }
 
       val response = if (loadKey == null) {
-          service.getComments(initialUri, null, 1, 20)
-        } else {
-          service.getComments(loadKey, null, null, null)
-        }
+        service.getComments(initialUri, null, 1, PER_PAGE_COUNT)
+      } else {
+        service.getComments(loadKey, null, null, null)
+      }
 
       if (loadType == LoadType.REFRESH) {
         commentDbHelper.clear()
@@ -63,7 +59,7 @@ class CommentRemoteMediator(
       if (response.isSuccessful) {
         val collection = response.body()
         if (collection != null && collection.data.isNotEmpty()) {
-          // Store loaded data, and next key in transaction, so that
+          // Store the loaded data and the next key in transaction, so that
           // they're always consistent.
           val videos = addLinkToNextPage(collection)
           commentDbHelper.insertComments(videos.map { commentMapper.mapTo(it) })
@@ -72,9 +68,7 @@ class CommentRemoteMediator(
         }
       }
 
-      MediatorResult.Success(
-        endOfPaginationReached = response.body()?.data.isNullOrEmpty()
-      )
+      MediatorResult.Success(endOfPaginationReached = response.body()?.data.isNullOrEmpty())
     } catch (e: IOException) {
       e.printStackTrace()
       MediatorResult.Error(e)
@@ -89,5 +83,9 @@ class CommentRemoteMediator(
       it.nextPage = collection.paging!!.next ?: ""
       it
     }
+
+  companion object {
+    private const val PER_PAGE_COUNT = 20
+  }
 
 }

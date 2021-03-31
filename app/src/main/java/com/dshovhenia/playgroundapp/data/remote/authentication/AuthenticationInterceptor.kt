@@ -11,8 +11,6 @@ import javax.inject.Inject
 class AuthenticationInterceptor @Inject constructor(private val mPreferencesHelper: PreferencesHelper) :
   Interceptor {
 
-  private val KEY_AUTHORIZATION = "Authorization"
-
   @Throws(IOException::class)
   override fun intercept(chain: Chain): Response {
     val accessToken = mPreferencesHelper.accessToken
@@ -34,6 +32,10 @@ class AuthenticationInterceptor @Inject constructor(private val mPreferencesHelp
     val newRequest = original.newBuilder().header(KEY_AUTHORIZATION, accessToken.authorizationHeader)
         .method(original.method(), original.body()).build()
     return chain.proceed(newRequest)
+  }
+
+  companion object {
+    private const val KEY_AUTHORIZATION = "Authorization"
   }
 
 }
